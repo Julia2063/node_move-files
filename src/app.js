@@ -15,7 +15,7 @@ async function app() {
   }
 
   if (existsSync(source) && !statSync(source).isFile()) {
-    console.error(`I can move just files!`);
+    console.error(`I can move just files! `);
 
     return;
   }
