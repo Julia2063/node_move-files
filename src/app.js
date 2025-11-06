@@ -14,13 +14,23 @@ async function app() {
     return;
   }
 
-  try {
-    const isDir =
-      existsSync(destination) && statSync(destination).isDirectory();
+  if (existsSync(source) && !statSync(source).isFile()) {
+    console.error(`I can move just files!`);
 
-    const finDest = isDir
-      ? path.join(destination, path.basename(source))
-      : destination;
+    return;
+  }
+
+  const slicedDest = destination.endsWith('/')
+    ? destination.slice(0, -1)
+    : destination;
+
+  try {
+    const isDestDir =
+      existsSync(slicedDest) && statSync(slicedDest).isDirectory();
+
+    const finDest = isDestDir
+      ? path.join(slicedDest, path.basename(source))
+      : slicedDest;
 
     await rename(source, finDest);
     console.log(`${source} was moved to ${destination}`);
